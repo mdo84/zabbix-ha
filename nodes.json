@@ -1,0 +1,68 @@
+{
+  "nodes": {
+    "mariadb-master.devops.com": {
+      ":ip": "192.168.10.18",
+      "ports": [],
+      ":cpus": 1,
+      ":memory": 1024,
+      ":box": "centos/7",
+      ":bootstrap": "bootstrap-mariadb-master.sh"
+    },
+    "mariadb-slave.devops.com": {
+      ":ip": "192.168.10.19",
+      "ports": [],
+      ":cpus": 1,
+      ":memory": 1024,
+      ":box": "centos/7",
+      ":bootstrap": "bootstrap-mariadb-slave.sh"
+    },
+    "zabbix-server2.devops.com": {
+      ":ip": "192.168.10.17",
+      "ports": [],
+      ":cpus": 1,
+      ":memory": 1024,
+      ":box": "centos/7",
+      ":bootstrap": "bootstrap-zabbix-server2.sh"
+    },
+    "zabbix-server1.devops.com": {
+      ":ip": "192.168.10.16",
+      "ports": [],
+      ":cpus": 1,
+      ":memory": 1024,
+      ":box": "centos/7",
+      ":bootstrap": "bootstrap-zabbix-server1.sh"
+    },
+    "zabbix-web2.devops.com": {
+      ":ip": "192.168.10.14",
+      "ports": [],
+      ":cpus": 1,
+      ":memory": 512,
+      ":box": "centos/7",
+      ":bootstrap": "bootstrap-zabbix-web2.sh"
+    },
+    "zabbix-web1.devops.com": {
+      ":ip": "192.168.10.13",
+      "ports": [],
+      ":cpus": 1,
+      ":memory": 512,
+      ":box": "centos/7",
+      ":bootstrap": "bootstrap-zabbix-web1.sh"
+    },
+    "lb2.devops.com": {
+      ":ip": "192.168.10.12",
+      "ports": [],
+      ":cpus": 1,
+      ":memory": 1024,
+      ":box": "centos/7",
+      ":bootstrap": "bootstrap-lb2.sh"
+    },
+    "lb1.devops.com": {
+      ":ip": "192.168.10.11",
+      "ports": [],
+      ":cpus": 1,
+      ":memory": 1024,
+      ":box": "centos/7",
+      ":bootstrap": "bootstrap-lb1.sh"
+    }
+  }
+}
