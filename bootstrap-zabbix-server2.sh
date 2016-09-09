@@ -3,13 +3,11 @@
 SOURCE="zabbix.devops.com"
 VM=`cat /etc/hostname`
 
-printf "\n>>>\n>>> WORKING ON: $VM ...\n>>>\n\n"
+printf "\n>>>\n>>> WORKING ON: $VM ...\n>>>\n\n>>>\n>>> (STEP 1/4) Configuring system ...\n>>>\n\n\n"
+sleep 5
 echo 'root:devops' | chpasswd
 timedatectl set-timezone Europe/Berlin
 sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config && service sshd restart
-
-printf "\n>>>\n>>> (STEP 1/4) Disabling SELinux ...\n>>>\n\n"
-sleep 5
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/sysconfig/selinux
 echo 0 > /sys/fs/selinux/enforce
 
@@ -18,9 +16,7 @@ sleep 5
 yum install -y pacemaker pcs
 echo "hacluster:hacluster" | chpasswd
 systemctl start pcsd
-systemctl enable pcsd
-systemctl enable corosync
-systemctl enable pacemaker
+for SERVICE in pcsd corosync pacemaker; do systemctl enable $SERVICE; done
 
 printf "\n>>>\n>>> (STEP 3/4) Installing Zabbix Server ...\n>>>\n\n"
 sleep 5
@@ -32,9 +28,6 @@ yum install -y zabbix-server-mysql
 printf "\n>>>\n>>> (STEP 4/4) Configuring Zabbix Server ...\n>>>\n\n"
 sleep 5
 cp /etc/zabbix/zabbix_server.conf /etc/zabbix/zabbix_server.conf.orig
-sed -i -e 's/# DBHost=localhost/DBHost=mariadb-master.devops.com/' \
--e 's/# DBPassword=/DBPassword=zabbix/' \
--e 's/# SourceIP=/SourceIP=192.168.10.15/' \
--e 's/# ListenIP=127.0.0.1/ListenIP=192.168.10.15/' /etc/zabbix/zabbix_server.conf
+cp /sources/$SOURCE/zabbix_server.conf /etc/zabbix/
 
 printf "\n>>>\n>>> Finished bootstrapping $VM\n"

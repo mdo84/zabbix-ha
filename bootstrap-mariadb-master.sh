@@ -3,13 +3,11 @@
 SOURCE="mariadb.devops.com"
 VM=`cat /etc/hostname`
 
-printf "\n>>>\n>>> WORKING ON: $VM ...\n>>>\n\n"
+printf "\n>>>\n>>> WORKING ON: $VM ...\n>>>\n\n>>>\n>>> (STEP 1/3) Configuring system ...\n>>>\n\n\n"
+sleep 5
 echo 'root:devops' | chpasswd
 timedatectl set-timezone Europe/Berlin
 sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config && service sshd restart
-
-printf "\n>>>\n>>> (STEP 1/3) Disabling SELinux ...\n>>>\n\n"
-sleep 5
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/sysconfig/selinux
 echo 0 > /sys/fs/selinux/enforce
 
@@ -18,8 +16,7 @@ sleep 5
 yum update
 yum install -y mariadb-server mariadb
 cp /sources/$SOURCE/master.cnf /etc/my.cnf.d/
-systemctl start mariadb
-systemctl enable mariadb
+systemctl start mariadb && systemctl enable mariadb
 mysql_secure_installation <<EOF
 
 y
